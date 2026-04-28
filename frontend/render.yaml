@@ -1,0 +1,14 @@
+# render.yaml — Render deployment config for frontend
+
+services:
+  - type: web
+    name: payease-frontend
+    env: docker
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BACKEND_URL
+        sync: false
