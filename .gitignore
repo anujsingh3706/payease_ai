@@ -1,0 +1,36 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+*.egg-info/
+
+# ML Models (large files — regenerated on build)
+backend/ml_models/*.pkl
+
+# Node
+node_modules/
+dist/
+.env.local
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.sqlite3
