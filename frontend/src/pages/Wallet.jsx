@@ -13,7 +13,7 @@ export default function Wallet() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
     walletAPI.getWallet()

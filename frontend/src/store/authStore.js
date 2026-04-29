@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware";
 
 const useAuthStore = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       user:         null,
       accessToken:  null,
       refreshToken: null,

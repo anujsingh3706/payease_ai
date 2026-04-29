@@ -12,11 +12,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Split vendor chunks for better caching
-        manualChunks: {
-          vendor:   ["react", "react-dom", "react-router-dom"],
-          charts:   ["recharts"],
-          ui:       ["lucide-react"],
-          query:    ["@tanstack/react-query"],
+        manualChunks(id) {
+          if (['react', 'react-dom', 'react-router-dom'].some(pkg => id.includes(`node_modules/${pkg}`))) return 'vendor';
+          if (id.includes('node_modules/recharts')) return 'charts';
+          if (id.includes('node_modules/lucide-react')) return 'ui';
+          if (id.includes('node_modules/@tanstack/react-query')) return 'query';
         },
       },
     },

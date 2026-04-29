@@ -57,7 +57,7 @@ export default function Sidebar() {
               {group.group}
             </p>
             <ul className="space-y-1">
-              {group.items.map(({ to, icon: Icon, label }) => (
+              {group.items.map(({ to, icon: Icon, label }) => ( // eslint-disable-line no-unused-vars
                 <li key={to}>
                   <NavLink
                     to={to}

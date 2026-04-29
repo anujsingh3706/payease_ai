@@ -12,8 +12,24 @@ export default function CreditScore() {
   const [loading,   setLoading] = useState(true);
   const [refreshing,setRefresh] = useState(false);
 
-  const fetchScore = async (refresh = false) => {
-    refresh ? setRefresh(true) : setLoading(true);
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      try {
+        const [scoreRes, histRes] = await Promise.all([
+          aiAPI.getCreditScore(),
+          aiAPI.creditHistory()
+        ]);
+        setScore(scoreRes.data);
+        setHistory(histRes.data.history || []);
+      } catch { toast.error("Failed to fetch credit score"); }
+      finally { setLoading(false); }
+    };
+    load();
+  }, []);
+
+  const handleRefresh = async () => {
+    setRefresh(true);
     try {
       const [scoreRes, histRes] = await Promise.all([
         aiAPI.getCreditScore(),
@@ -22,10 +38,8 @@ export default function CreditScore() {
       setScore(scoreRes.data);
       setHistory(histRes.data.history || []);
     } catch { toast.error("Failed to fetch credit score"); }
-    finally { setLoading(false); setRefresh(false); }
+    finally { setRefresh(false); }
   };
-
-  useEffect(() => { fetchScore(); }, []);
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader size="lg" text="Analysing your credit profile..." /></div>;
 
@@ -44,7 +58,7 @@ export default function CreditScore() {
           <h1 className="text-2xl font-black text-white">Credit Score</h1>
           <p className="text-muted mt-1">CIBIL-style AI credit analysis</p>
         </div>
-        <button onClick={() => fetchScore(true)} disabled={refreshing}
+        <button onClick={handleRefresh} disabled={refreshing}
           className="btn-outline flex items-center gap-2 text-sm">
           <RefreshCw size={15} className={refreshing ? "animate-spin" : ""} /> Refresh
         </button>
